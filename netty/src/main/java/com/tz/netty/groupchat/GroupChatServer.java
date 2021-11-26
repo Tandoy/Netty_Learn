@@ -61,6 +61,10 @@ public class GroupChatServer {
             });
 
             // 7.关闭监听
+            // 注意：如果自处不加同步阻塞sync，netty服务端会启动后又无异常地自动退出
+            // 解决方式：
+                // 1.加上同步阻塞sync,那么只有服务端正常关闭channel时才会执行finally里的语句
+                // 2.把finally里的语句移到operationComplete里面，那么也只有channel关闭时才会让netty的两个线程组关闭
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
             System.out.println(e.fillInStackTrace().toString());
