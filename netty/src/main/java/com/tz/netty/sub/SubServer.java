@@ -35,6 +35,9 @@ public class SubServer {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             // 4.获取pipeline
                             ChannelPipeline pipeline = socketChannel.pipeline();
+                            //加入相关handler
+                            pipeline.addLast("decoder", new MyMessageEncoder());
+                            pipeline.addLast("encoder", new MyMessageDecoder());
                             // 5.根据业务逻辑添加链式handler
                             pipeline.addLast(new MyServerHandler());
                         }
@@ -71,6 +74,6 @@ public class SubServer {
     }
 
     public static void main(String[] args) {
-        new SubServer(8023).run();
+        new SubServer(8024).run();
     }
 }

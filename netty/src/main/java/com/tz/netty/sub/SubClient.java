@@ -8,8 +8,6 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * TCP粘包 拆包实例程序
@@ -35,8 +33,8 @@ public class SubClient {
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             //加入相关handler
-                            pipeline.addLast("decoder", new StringDecoder());
-                            pipeline.addLast("encoder", new StringEncoder());
+                            pipeline.addLast("decoder", new MyMessageEncoder());
+                            pipeline.addLast("encoder", new MyMessageDecoder());
                             //加入自定义的handler
                             pipeline.addLast(new MyClientHandler());
                         }
@@ -54,6 +52,6 @@ public class SubClient {
     }
 
     public static void main(String[] args) {
-        new SubClient("127.0.0.1", 8023).run();
+        new SubClient("127.0.0.1", 8024).run();
     }
 }
