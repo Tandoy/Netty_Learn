@@ -37,6 +37,15 @@ public final class EchoServer {
          * @param executor 执行器:如果传入 null, 则采用 Netty 默认的线程工厂和默认的执行器 ThreadPerTaskExecutor
          * @param chooserFactory 单例 new DefaultEventExecutorChooserFactory()
          * @param args args 在创建执行器的时候传入固定参数
+         *
+         *
+         * 创建步骤：
+         *           1.如果 executor 是 null，创建一个默认的 ThreadPerTaskExecutor，使用 Netty 默认的线程工厂。
+         *           2.根据传入的线程数（CPU * 2）创建一个线程池（单例线程池）数组。
+         *           3.循环填充数组中的元素。如果异常，则关闭所有的单例线程池。
+         *           4.根据线程选择工厂创建一个线程选择器。
+         *           5.为每一个单例线程池添加一个关闭监听器。
+         *           6.将所有的单例线程池添加到一个 HashSet 中。
          */
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -59,6 +68,11 @@ public final class EchoServer {
                     });
 
             // Start the server.
+
+            /**
+             * 这里源码核心是两个方法 initAndRegister 和 doBind0
+             *  todo 未完待续
+             */
             ChannelFuture f = b.bind(PORT).sync();
 
             // Wait until the server socket is closed.
