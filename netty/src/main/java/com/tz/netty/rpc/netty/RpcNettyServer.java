@@ -1,6 +1,5 @@
-package com.tz.netty.rpc.provider;
+package com.tz.netty.rpc.netty;
 
-import com.tz.netty.rpc.netty.RpcNettyServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

@@ -9,10 +9,10 @@ public class RpcClientBootstrap {
 
     public static void main(String[] args) throws Exception {
 
-        //创建一个消费者
+        //创建一个消费者 其实就是netty客户端
         RpcNettyClient customer = new RpcNettyClient();
 
-        //创建代理对象
+        //创建代理对象 其实也就是启动netty客户端
         RpcHelloService service = (RpcHelloService) customer.getBean(RpcHelloService.class, providerName);
 
         for (; ; ) {
